@@ -10,6 +10,5 @@ pipelines:
     - step:
         script: # Modify the commands below to build your repository.
           - sbt assembly
-          - curl -X POST "https://${BB_AUTH_STRING}@api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files=@"target/scala-2.12/diceware-server.jar"
-
+          - curl -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/yannispollfish/diceware/downloads" --form files=@"target/scala-2.12/diceware-server.jar"
 
