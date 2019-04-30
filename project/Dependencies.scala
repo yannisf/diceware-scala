@@ -6,10 +6,9 @@ object Dependencies {
     final val LogbackVersion = "1.2.3"
     final val Slf4jVersion = "1.7.25"
     final val ScalaTest = "3.0.5"
-    final val TwitterLib = "18.3.0"
+    final val TwitterLib = "19.4.0"
     final val Jackson = "2.9.8"
   }
-
 
   lazy val Twitter = Seq(
     "com.twitter" %% "finatra-http" % version.TwitterLib,
@@ -22,7 +21,7 @@ object Dependencies {
     "com.twitter" %% "inject-server" % version.TwitterLib % Test classifier "tests",
     "com.twitter" %% "inject-modules" % version.TwitterLib,
     "com.twitter" %% "inject-modules" % version.TwitterLib % Test classifier "tests",
-    "com.twitter" %% "inject-thrift-client" % version.TwitterLib
+    //    "com.twitter" %% "twitter-server-slf4j-jdk14" % version.TwitterLib
   )
 
   lazy val Finagle = Seq(
@@ -35,5 +34,6 @@ object Dependencies {
     "org.slf4j" % "log4j-over-slf4j" % version.Slf4jVersion,
     "org.slf4j" % "jul-to-slf4j" % version.Slf4jVersion)
 
-  lazy val ScalaTest = "org.scalatest" %% "scalatest" % "3.0.5" % "test"
+  lazy val ScalaTest = "org.scalatest" %% "scalatest" % version.ScalaTest % "test"
+
 }

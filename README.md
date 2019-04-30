@@ -1,19 +1,35 @@
-## Diceware password server
+# Diceware password server
 
-## TODO
-- Install nginx
-- Update Lets Encrypt
-- Install SSL
-- Proxy Finatra
+Scala diceware password server based on Finatra.
 
-- Add logging
-- Modularize
-- Add jvm parameters
-- Add jmx parameters
-- Add configuration
+## Prerequisites
 
-## Issues
-- Why object extend class
+- jdk8
+- sbt
+
+## Build and Run
+
+    $ sbt clean assembly
+    $ java -jar target/scala-2.12/diceware-server.jar
+
+## REST API
+
+Default base URL: `http://localhost:8888`
+
+### Generate password: `/generate` 
+
+#### Optional parameters
+
+- `words` (int): number of words to use in the password
+- `mode` (flat|camel|snake): word concatenation mode 
+
+**Example:** `http://localhost:8888?words=4&mode=flat`
+
+### Display dictionary: `/wordlist`
+
+#### Optional parameters
+
+- `download`: download dictionary as file
 
 ## References
 * http://world.std.com/~reinhold/diceware.html
