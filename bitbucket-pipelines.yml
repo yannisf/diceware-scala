@@ -10,5 +10,9 @@ pipelines:
     - step:
         script: # Modify the commands below to build your repository.
           - sbt assembly
+        artifacts:
+          - target/scala-2.12/diceware-server.jar
+    - step:
+        script:
           - curl -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/yannispollfish/diceware/downloads" --form files=@"target/scala-2.12/diceware-server.jar"
 
