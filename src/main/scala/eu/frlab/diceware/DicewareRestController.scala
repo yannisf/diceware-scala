@@ -1,4 +1,4 @@
-package com.pollfish
+package eu.frlab.diceware
 
 import com.twitter.finatra.http.Controller
 import com.twitter.finatra.request.QueryParam
@@ -12,4 +12,5 @@ class DicewareRestController extends Controller with Logging {
 
 }
 
-private case class PasswordParams(@QueryParam tokens: Option[Int], @QueryParam mode: Option[String])
+private case class PasswordParams(@QueryParam tokens: Option[Int],
+                                  @QueryParam mode: Option[String])

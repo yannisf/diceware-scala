@@ -1,4 +1,4 @@
-package com.pollfish
+package eu.frlab.diceware
 
 object ConcatMode extends Enumeration {
   val Flat, Camel, Snake = Value

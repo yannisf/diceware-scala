@@ -1,16 +1,19 @@
 ## Diceware password server
 
+## TODO
+- Install nginx
+- Update Lets Encrypt
+- Install SSL
+- Proxy Finatra
 
+- Add logging
+- Modularize
+- Add jvm parameters
+- Add jmx parameters
+- Add configuration
 
 ## Issues
-
-- Finatra/sbt taking 100% of CPU
-- How to add a 2nd http parameter
-- How to make a http parameter optional
-- Needs to enter twice to run
-- How to stop a run <- If it is forked you cannot from within sbt
-
-
+- Why object extend class
 
 ## References
 * http://world.std.com/~reinhold/diceware.html

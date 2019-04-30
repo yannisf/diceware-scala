@@ -1,4 +1,4 @@
-package com.pollfish
+package eu.frlab.diceware
 
 import java.io.InputStream
 

@@ -1,6 +1,6 @@
-package com.pollfish
+package eu.frlab.diceware
 
-import com.pollfish.ConcatMode.{Camel, Flat, Snake}
+import ConcatMode.{Camel, Flat, Snake}
 
 import scala.util.Random
 
