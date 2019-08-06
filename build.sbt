@@ -60,8 +60,3 @@ lazy val root = Project("diceware", file("."))
   .settings(libraryDependencies += "com.github.pureconfig" %% "pureconfig" % "0.10.2")
   .settings(assemblySettings)
   .settings(dockerSettings)
-
-//lazy val gatling = project.in(file("gatling"))
-//  .enablePlugins(GatlingPlugin)
-//  .settings(libraryDependencies += "io.gatling.highcharts" % "gatling-charts-highcharts" % "3.0.0" % "test")
-//  .settings(libraryDependencies += "io.gatling" % "gatling-test-framework" % "3.0.0" % "test")
