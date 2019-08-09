@@ -38,6 +38,8 @@ object Dependencies {
     groups.SLF4J % "log4j-over-slf4j" % version.Slf4jVersion,
     groups.SLF4J % "jul-to-slf4j" % version.Slf4jVersion)
 
+  lazy val Pureconfig = "com.github.pureconfig" %% "pureconfig" % "0.10.2"
+
   lazy val ScalaTest = "org.scalatest" %% "scalatest" % version.ScalaTest % "test"
 
 }

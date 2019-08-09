@@ -2,7 +2,7 @@ package eu.frlab.diceware
 
 import org.scalatest._
 
-class DicewareSpec extends FlatSpec with Matchers {
+class DicewareServicesSpec extends FlatSpec with Matchers {
 
   "Generate 3, snake" should "produce a 3 word password separated with underscore" in {
     val response = DicewareService.generate(3, ConcatMode.Snake.toString)
@@ -32,12 +32,6 @@ class DicewareSpec extends FlatSpec with Matchers {
     assertThrows[IllegalStateException] {
       DicewareService.generate(2, "other")
     }
-  }
-
-  "Configuration" should "be initializable" in {
-    val defaults = Defaults.load()
-    defaults.numberOfWords should be(4)
-    defaults.concatMode should be(ConcatMode.Flat.toString.toLowerCase)
   }
 
 }

@@ -28,6 +28,10 @@ class DicewareRestController extends Controller with Logging {
     }
   }
 
+  get("/wordlist.json") { request: Request =>
+    DicewareService.wordList()
+  }
+
 }
 
 private case class PasswordParams(@QueryParam words: Option[Int],

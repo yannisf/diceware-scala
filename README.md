@@ -10,7 +10,7 @@ Scala diceware password server based on Finatra.
 ## Build and Run
 
     $ sbt clean assembly
-    $ java -jar target/scala-2.12/diceware-server.jar
+    $ java -jar server/target/scala-2.12/diceware-server.jar
 
 ## REST API
 

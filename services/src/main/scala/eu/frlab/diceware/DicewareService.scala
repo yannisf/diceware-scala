@@ -1,9 +1,14 @@
 package eu.frlab.diceware
 
-import eu.frlab.diceware.ConcatMode.{Camel, Flat, Snake}
+import eu.frlab.diceware.ConcatMode._
 import org.slf4j.LoggerFactory
 
+import scala.annotation.tailrec
 import scala.util.Random
+
+case class DicewareRecord(key: String, word: String)
+
+case class PasswordResponse(password: String, numberOfTokens: Int, concatMode: String, rolls: Seq[DicewareRecord])
 
 object DicewareService {
 
@@ -20,7 +25,14 @@ object DicewareService {
     PasswordResponse(password, numberOfWords, concatMode, records)
   }
 
+  def wordList(): Seq[DicewareRecord] = {
+    WordMap.keys.toSeq
+      .sortWith(_.toInt < _.toInt)
+      .map(k => DicewareRecord(k, WordMap(k)))
+  }
+
   private def rollForWord() = {
+    @tailrec
     def rollCollect(acc: String = ""): String = {
       log.debug("Rolling dice")
       def roll = (RandomGen.nextInt(6) + 1).toString
@@ -44,8 +56,3 @@ object DicewareService {
   }
 
 }
-
-case class DicewareRecord(key: String, word: String)
-
-case class PasswordResponse(password: String, numberOfTokens: Int, concatMode: String, rolls: Seq[DicewareRecord])
-
