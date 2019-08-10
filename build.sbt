@@ -49,18 +49,19 @@ lazy val dockerSettings = Seq(
   docker / imageNames := Seq(ImageName("frlab/diceware:0.1")),
   docker / buildOptions := BuildOptions(cache = false))
 
-lazy val root = Project("diceware", file("."))
+lazy val root = project.in(file("."))
   .aggregate(services, server)
+  .settings(jacocoAggregateReportSettings := JacocoReportSettings(formats = Seq(JacocoReportFormats.XML)))
   .settings(name := "diceware")
 
-lazy val services = Project("diceware-services", file("services"))
-  .settings(Test / coverageEnabled := true)
+lazy val services = project.in(file("services"))
+  .settings(jacocoReportSettings := JacocoReportSettings(formats = Seq(JacocoReportFormats.XML)))
   .settings(libraryDependencies += Dependencies.ScalaTest)
   .settings(libraryDependencies ++= Dependencies.Logging)
 
-lazy val server = Project("diceware-server", file("server"))
+lazy val server = project.in(file("server"))
   .dependsOn(services)
-  .settings(Test / coverageEnabled := true)
+  .settings(jacocoReportSettings := JacocoReportSettings(formats = Seq(JacocoReportFormats.XML)))
   .settings(libraryDependencies ++= Dependencies.Twitter)
   .settings(libraryDependencies ++= Dependencies.Finagle)
   .settings(libraryDependencies += Dependencies.ScalaTest)
