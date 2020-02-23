@@ -1,6 +1,6 @@
 import sbt.url
 
-val AppScalaVersion = "2.12.9"
+val AppScalaVersion = "2.12.10"
 
 ThisBuild / scalaVersion := AppScalaVersion
 
@@ -38,15 +38,16 @@ lazy val assemblySettings = Seq(
 lazy val dockerSettings = Seq(
   docker / dockerfile := {
     val artifact = assembly.value
+    val artifactTargetPath = s"/app/${artifact.name}"
+
     new Dockerfile {
-      from("openjdk:8-alpine")
-      workDir("/root")
-      copy(artifact, destination = "/root/")
+      from("openjdk:11-jdk")
+      add(artifact, artifactTargetPath)
       expose(8888)
-      entryPointRaw("java -jar diceware-server.jar")
+      entryPoint("java", "-jar", artifactTargetPath)
     }
   },
-  docker / imageNames := Seq(ImageName("frlab/diceware:0.1")),
+  docker / imageNames := Seq(ImageName("frlab/diceware:0.3")),
   docker / buildOptions := BuildOptions(cache = false))
 
 lazy val root = project.in(file("."))
@@ -61,6 +62,7 @@ lazy val services = project.in(file("services"))
   .settings(libraryDependencies += "javax.inject" % "javax.inject" % "1")
 
 lazy val server = project.in(file("server"))
+  .enablePlugins(sbtdocker.DockerPlugin)
   .dependsOn(services)
   .settings(jacocoReportSettings := JacocoReportSettings(formats = Seq(JacocoReportFormats.XML)))
   .settings(libraryDependencies ++= Dependencies.Twitter)
@@ -69,3 +71,4 @@ lazy val server = project.in(file("server"))
   .settings(libraryDependencies ++= Dependencies.Logging)
   .settings(libraryDependencies += Dependencies.Pureconfig)
   .settings(assemblySettings)
+  .settings(dockerSettings)
