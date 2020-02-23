@@ -51,7 +51,7 @@ lazy val dockerSettings = Seq(
 
 lazy val root = project.in(file("."))
   .aggregate(services, server)
-  .settings(jacocoAggregateReportSettings := JacocoReportSettings(formats = Seq(JacocoReportFormats.XML)))
+  .settings(jacocoAggregateReportSettings := JacocoReportSettings(formats = Seq(JacocoReportFormats.XML, JacocoReportFormats.ScalaHTML)))
   .settings(name := "diceware")
 
 lazy val services = project.in(file("services"))
