@@ -1,6 +1,6 @@
 import sbt.url
 
-val AppScalaVersion = "2.12.8"
+val AppScalaVersion = "2.12.9"
 
 ThisBuild / scalaVersion := AppScalaVersion
 
@@ -26,9 +26,9 @@ ThisBuild / developers := List(
 )
 
 lazy val assemblySettings = Seq(
-  assembly / mainClass := Some("eu.frlab.diceware.DicewareServer"),
+  assembly / mainClass := Some("eu.frlab.diceware.DicewareServerMain"),
   assembly / assemblyJarName := "diceware-server.jar",
-//  assembly / assemblyOption := (assemblyOption in assembly).value.copy(includeScala = false),
+  assembly / assemblyOption := (assemblyOption in assembly).value.copy(includeScala = true),
   assembly / assemblyMergeStrategy := {
     case PathList("META-INF", xs@_*) => MergeStrategy.discard
     case x => MergeStrategy.first
@@ -49,13 +49,23 @@ lazy val dockerSettings = Seq(
   docker / imageNames := Seq(ImageName("frlab/diceware:0.1")),
   docker / buildOptions := BuildOptions(cache = false))
 
-lazy val root = Project("diceware", file("."))
-  .enablePlugins(DockerPlugin)
+lazy val root = project.in(file("."))
+  .aggregate(services, server)
+  .settings(jacocoAggregateReportSettings := JacocoReportSettings(formats = Seq(JacocoReportFormats.XML)))
   .settings(name := "diceware")
+
+lazy val services = project.in(file("services"))
+  .settings(jacocoReportSettings := JacocoReportSettings(formats = Seq(JacocoReportFormats.XML)))
+  .settings(libraryDependencies += Dependencies.ScalaTest)
+  .settings(libraryDependencies ++= Dependencies.Logging)
+  .settings(libraryDependencies += "javax.inject" % "javax.inject" % "1")
+
+lazy val server = project.in(file("server"))
+  .dependsOn(services)
+  .settings(jacocoReportSettings := JacocoReportSettings(formats = Seq(JacocoReportFormats.XML)))
   .settings(libraryDependencies ++= Dependencies.Twitter)
   .settings(libraryDependencies ++= Dependencies.Finagle)
-  .settings(libraryDependencies ++= Dependencies.Logging)
   .settings(libraryDependencies += Dependencies.ScalaTest)
-  .settings(libraryDependencies += "com.github.pureconfig" %% "pureconfig" % "0.10.2")
+  .settings(libraryDependencies ++= Dependencies.Logging)
+  .settings(libraryDependencies += Dependencies.Pureconfig)
   .settings(assemblySettings)
-  .settings(dockerSettings)

@@ -7,11 +7,11 @@
         </encoder>
     </appender>
 
-    <logger name="eu.frlab" level="debug"/>
+    <logger name="eu.frlab" level="info"/>
     <logger name="io.netty" level="warn"/>
     <logger name="com.twitter" level="warn"/>
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="STDOUT"/>
     </root>
 

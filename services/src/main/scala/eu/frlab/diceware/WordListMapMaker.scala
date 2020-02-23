@@ -1,18 +1,20 @@
 package eu.frlab.diceware
 
-import com.twitter.util.logging.Logging
+import org.slf4j.LoggerFactory
 
 import scala.io.Source
 
 /**
   * Generates the Diceware dictionary.
   */
-object WordListMapMaker extends Logging {
+object WordListMapMaker {
+
+  private val log = LoggerFactory.getLogger("eu.frlab")
 
   private val Filename = "wordlist.txt"
 
   def apply(): Map[String, String] = {
-    logger.info("Initializing Diceware dictionary")
+    log.info("Initializing Diceware dictionary")
     val source = Source.fromResource(Filename)
     val wordlist = source.getLines
       .map(_.split("""\s+"""))
