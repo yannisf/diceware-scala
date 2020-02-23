@@ -4,8 +4,10 @@ import com.twitter.finagle.http.{MediaType, Request}
 import com.twitter.finatra.http.Controller
 import com.twitter.finatra.request.QueryParam
 import com.twitter.util.logging.Logging
+import javax.inject.Inject
 
-class DicewareRestController extends Controller with Logging {
+
+class DicewareRestController @Inject() (dicewareService: DicewareService) extends Controller with Logging {
 
   private val DefaultNumberOfWords = Defaults.Instance.numberOfWords
   private val DefaultConcatMode = Defaults.Instance.concatMode
@@ -14,7 +16,7 @@ class DicewareRestController extends Controller with Logging {
     val numberOfWords = request.words.getOrElse(DefaultNumberOfWords)
     val concatMode = request.mode.getOrElse(DefaultConcatMode)
     logger.info("Received request to generate password")
-    DicewareService.generate(numberOfWords, concatMode)
+    dicewareService.generate(numberOfWords, concatMode)
   }
 
   get("/wordlist") { request: Request =>
@@ -29,7 +31,7 @@ class DicewareRestController extends Controller with Logging {
   }
 
   get("/wordlist.json") { request: Request =>
-    DicewareService.wordList()
+    dicewareService.wordList()
   }
 
 }

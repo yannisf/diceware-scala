@@ -3,7 +3,7 @@ import sbt._
 object Dependencies {
 
   final val version = new {
-    final val TwitterLib = "19.8.0"
+    final val TwitterLib = "20.1.0"
     final val LogbackVersion = "1.2.3"
     final val Slf4jVersion = "1.7.25"
     final val ScalaTest = "3.0.8"

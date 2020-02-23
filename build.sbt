@@ -58,6 +58,7 @@ lazy val services = project.in(file("services"))
   .settings(jacocoReportSettings := JacocoReportSettings(formats = Seq(JacocoReportFormats.XML)))
   .settings(libraryDependencies += Dependencies.ScalaTest)
   .settings(libraryDependencies ++= Dependencies.Logging)
+  .settings(libraryDependencies += "javax.inject" % "javax.inject" % "1")
 
 lazy val server = project.in(file("server"))
   .dependsOn(services)
