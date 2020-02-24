@@ -34,6 +34,12 @@ class DicewareRestController @Inject() (dicewareService: DicewareService) extend
     dicewareService.wordList()
   }
 
+  get("/:*") { request: Request =>
+    response.ok.fileOrIndex(
+      request.params("*"),
+      "index.html")
+  }
+
 }
 
 private case class PasswordParams(@QueryParam words: Option[Int],

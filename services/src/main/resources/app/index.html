@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Diceware</title>
+</head>
+<body>
+
+
+<form>
+    <table>
+        <tbody>
+        <tr>
+            <td><label for="words">Words:</label></td>
+            <td><input id="words" type="number" value="5" min="2" max="12"/></td>
+        </tr>
+
+        <tr>
+            <td><label for="mode">Mode:</label></td>
+            <td><select id="mode">
+                <option label="flat" value="flat" selected="selected">Flat</option>
+                <option label="camel" value="camel">Camel</option>
+                <option label="snake" value="snake">Snake</option>
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="submit">Generate</button>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="password">Password:</label></td>
+            <td><input id="password" type="text" value="password" readonly="readonly" disabled="disabled"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+
+</body>
+</html>
