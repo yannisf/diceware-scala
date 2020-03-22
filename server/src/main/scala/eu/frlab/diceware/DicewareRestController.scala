@@ -12,6 +12,16 @@ class DicewareRestController @Inject() (dicewareService: DicewareService) extend
   private val DefaultNumberOfWords = Defaults.Instance.numberOfWords
   private val DefaultConcatMode = Defaults.Instance.concatMode
 
+  options("/:*") { _: Request =>
+    response.ok
+  }
+
+  get("/app/:*") { request: Request =>
+    response.ok.fileOrIndex(
+      request.params("*"),
+      "index.html")
+  }
+
   get("/generate") { request: PasswordParams =>
     val numberOfWords = request.words.getOrElse(DefaultNumberOfWords)
     val concatMode = request.mode.getOrElse(DefaultConcatMode)
