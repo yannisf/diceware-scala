@@ -12,6 +12,13 @@ Scala diceware password server based on Finatra.
     $ sbt clean assembly
     $ java -jar server/target/scala-2.12/diceware-server.jar -doc.root=/site
     
+**Note:** You might want to use the basic ReactJS user interface created for the application. 
+To this end first build it like so:
+
+    $ cd ui && npm i && npm run build && cp dist/* ../server/src/main/resources/site/
+    
+Then execute the steps outlines previously (assembly etc).    
+    
 ### Docker
 
 Through the `assembly` and `docker` plugin, it is possible create a Docker image that can be instantiated wherever docker is available.

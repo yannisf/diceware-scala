@@ -24,3 +24,7 @@ project/plugins/project/
 .bloop
 .metals
 .scannerwork
+
+node_modules/
+ui/dist/
+server/src/main/resources/site/

@@ -1,6 +1,7 @@
-'use strict';
+import React from "react";
+import axios from "axios";
 
-class DicewareRequestForm extends React.Component {
+export default class DicewareRequestForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -24,7 +25,7 @@ class DicewareRequestForm extends React.Component {
 
     handleSubmit(event) {
         console.log("Submitting...");
-        axios.get("/generate", {
+        axios.get("http://localhost:8888/generate", {
             params: {
                 words: this.state.numberOfWords,
                 mode: this.state.mode
@@ -90,5 +91,3 @@ class DicewareRequestForm extends React.Component {
         );
     }
 }
-
-ReactDOM.render(<DicewareRequestForm numberOfWords="4" mode="camel"/>, document.querySelector('#app'));
