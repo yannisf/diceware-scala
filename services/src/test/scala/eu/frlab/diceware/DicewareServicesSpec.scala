@@ -1,6 +1,7 @@
 package eu.frlab.diceware
 
 import org.scalatest._
+import org.scalatest.matchers.should.Matchers
 
 class DicewareServicesSpec extends FlatSpec with Matchers {
 

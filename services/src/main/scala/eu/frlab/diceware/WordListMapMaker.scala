@@ -11,7 +11,7 @@ object WordListMapMaker {
 
   private val log = LoggerFactory.getLogger("eu.frlab")
 
-  private val Filename = "wordlist.txt"
+  private val Filename = "site/wordlist.txt"
 
   def apply(): Map[String, String] = {
     log.info("Initializing Diceware dictionary")

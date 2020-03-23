@@ -3,10 +3,10 @@ import sbt._
 object Dependencies {
 
   final val version = new {
-    final val TwitterLib = "20.1.0"
+    final val TwitterLib = "20.3.0"
     final val LogbackVersion = "1.2.3"
-    final val Slf4jVersion = "1.7.25"
-    final val ScalaTest = "3.1.0"
+    final val Slf4jVersion = "1.7.30"
+    final val ScalaTest = "3.1.1"
   }
 
   private final val groups = new {
@@ -38,7 +38,7 @@ object Dependencies {
     groups.SLF4J % "log4j-over-slf4j" % version.Slf4jVersion,
     groups.SLF4J % "jul-to-slf4j" % version.Slf4jVersion)
 
-  lazy val Pureconfig = "com.github.pureconfig" %% "pureconfig" % "0.10.2"
+  lazy val Pureconfig = "com.github.pureconfig" %% "pureconfig" % "0.12.3"
 
   lazy val ScalaTest = "org.scalatest" %% "scalatest" % version.ScalaTest % "test"
 

@@ -1,6 +1,6 @@
 import sbt.url
 
-val AppScalaVersion = "2.12.10"
+val AppScalaVersion = "2.12.11"
 
 ThisBuild / scalaVersion := AppScalaVersion
 
@@ -24,6 +24,8 @@ ThisBuild / developers := List(
     url = url("https://frlab.eu")
   )
 )
+
+scalacOptions ++= Seq("-deprecation", "-feature")
 
 lazy val assemblySettings = Seq(
   assembly / mainClass := Some("eu.frlab.diceware.DicewareServerMain"),
