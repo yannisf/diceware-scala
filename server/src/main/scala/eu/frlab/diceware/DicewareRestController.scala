@@ -16,10 +16,8 @@ class DicewareRestController @Inject() (dicewareService: DicewareService) extend
     response.ok
   }
 
-  get("/app/:*") { request: Request =>
-    response.ok.fileOrIndex(
-      request.params("*"),
-      "index.html")
+  get("/:*") { request: Request =>
+    response.ok.fileOrIndex(request.params("*"), "index.html")
   }
 
   get("/generate") { request: PasswordParams =>

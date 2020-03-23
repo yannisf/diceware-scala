@@ -24,7 +24,7 @@ class DicewareRequestForm extends React.Component {
 
     handleSubmit(event) {
         console.log("Submitting...");
-        axios.get("http://localhost:8888/generate", {
+        axios.get("/generate", {
             params: {
                 words: this.state.numberOfWords,
                 mode: this.state.mode

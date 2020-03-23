@@ -30,6 +30,7 @@ lazy val assemblySettings = Seq(
   assembly / assemblyJarName := "diceware-server.jar",
   assembly / assemblyOption := (assemblyOption in assembly).value.copy(includeScala = true),
   assembly / assemblyMergeStrategy := {
+    case PathList("META-INF", "mime.types") => MergeStrategy.deduplicate
     case PathList("META-INF", xs@_*) => MergeStrategy.discard
     case x => MergeStrategy.first
   }
@@ -44,7 +45,7 @@ lazy val dockerSettings = Seq(
       from("openjdk:11-jdk")
       add(artifact, artifactTargetPath)
       expose(8888)
-      entryPoint("java", "-jar", artifactTargetPath)
+      entryPoint("java", "-jar", artifactTargetPath, "-doc.root=/site")
     }
   },
   docker / imageNames := Seq(ImageName("frlab/diceware:0.3")),

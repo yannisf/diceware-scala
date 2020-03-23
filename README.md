@@ -10,14 +10,14 @@ Scala diceware password server based on Finatra.
 ## Build and Run
 
     $ sbt clean assembly
-    $ java -jar server/target/scala-2.12/diceware-server.jar
+    $ java -jar server/target/scala-2.12/diceware-server.jar -doc.root=/site
     
 ### Docker
 
 Through the `assembly` and `docker` plugin, it is possible create a Docker image that can be instantiated wherever docker is available.
 
     $ sbt clean assembly docker
-    $ docker run --rm --name diceware-scala -d -p8888:8888 frlab/diceware:0.1 
+    $ docker run --rm --name diceware-scala -d -p8888:8888 frlab/diceware:<version> 
 
 ## Test
 
