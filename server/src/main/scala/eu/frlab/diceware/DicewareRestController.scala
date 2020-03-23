@@ -2,7 +2,7 @@ package eu.frlab.diceware
 
 import com.twitter.finagle.http.{MediaType, Request}
 import com.twitter.finatra.http.Controller
-import com.twitter.finatra.request.QueryParam
+import com.twitter.finatra.http.annotations.QueryParam
 import com.twitter.util.logging.Logging
 import javax.inject.Inject
 
@@ -28,7 +28,7 @@ class DicewareRestController @Inject() (dicewareService: DicewareService) extend
   }
 
   get("/wordlist") { request: Request =>
-    val wordlistResponse = response.ok.file("/wordlist.txt")
+    val wordlistResponse = response.ok.file("../wordlist.txt")
     if (request.containsParam("download")) {
       wordlistResponse
         .contentType(MediaType.OctetStream)

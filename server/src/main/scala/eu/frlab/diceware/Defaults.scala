@@ -10,7 +10,7 @@ object Defaults {
   final lazy val Instance = load()
 
   def load(): Defaults = {
-    loadConfig[Defaults](loadConf()) match {
+    ConfigSource.fromConfig(loadConf()).load[Defaults] match {
       case Left(error) => sys.error(s"Failed to load configuration: '${error.head.description}'")
       case Right(config) => config
     }
