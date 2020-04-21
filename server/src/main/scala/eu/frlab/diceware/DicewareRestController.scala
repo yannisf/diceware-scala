@@ -38,6 +38,10 @@ class DicewareRestController @Inject() (dicewareService: DicewareService) extend
     }
   }
 
+  get("/modes") { request: Request =>
+    dicewareService.modes()
+  }
+
   get("/wordlist.json") { request: Request =>
     dicewareService.wordList()
   }

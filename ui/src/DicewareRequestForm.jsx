@@ -1,6 +1,7 @@
 import React from "react";
 import DicewareResponse from "./DicewareResponse";
 import DicewareControls from "./DicewareControls";
+import ModeSelector from "./ModeSelector";
 
 export default class DicewareRequestForm extends React.Component {
 
@@ -11,11 +12,17 @@ export default class DicewareRequestForm extends React.Component {
             mode: props.mode || "none"
         };
         this.handleChange = this.handleChange.bind(this);
+        this.handleModeUpdate = this.handleModeUpdate.bind(this);
         this.handlePasswordUpdate = this.handlePasswordUpdate.bind(this);
     }
 
+    handleModeUpdate(event) {
+        this.setState({
+            "mode": event.target.value
+        })
+    }
+
     handlePasswordUpdate(password) {
-        console.log("updating password into state...")
         this.setState({
             "password": password
         })
@@ -24,7 +31,6 @@ export default class DicewareRequestForm extends React.Component {
     handleChange(event) {
         const name = event.target.name;
         const value = event.target.value;
-        console.log("Updating state...", name + ":", value);
         this.setState({
             [name]: value
         });
@@ -44,19 +50,7 @@ export default class DicewareRequestForm extends React.Component {
                                onChange={this.handleChange}/>
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="concatMode">Concatenation mode</label>
-                        <select id="concatMode"
-                                className="form-control"
-                                name="mode"
-                                value={this.state.mode}
-                                onChange={this.handleChange}>
-                            <option value="flat">Flat</option>
-                            <option value="camel">Camel</option>
-                            <option value="snake">Snake</option>
-                            <option value="kebab">Kebab</option>
-                        </select>
-                    </div>
+                    <ModeSelector mode={this.state.mode} onModeUpdate={this.handleModeUpdate}/>
 
                     <DicewareControls
                         numberOfWords={this.state.numberOfWords}

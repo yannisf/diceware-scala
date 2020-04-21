@@ -32,6 +32,8 @@ class DicewareService @Inject() () {
       .map(k => DicewareRecord(k, WordMap(k)))
   }
 
+  def modes(): Seq[ConcatMode] = Seq(FlatConcatMode, CamelConcatMode, SnakeConcatMode, KebabConcatMode)
+
   private def rollForWord() = {
     @tailrec
     def rollCollect(acc: String = ""): String = {
@@ -48,14 +50,12 @@ class DicewareService @Inject() () {
     DicewareRecord(key, word)
   }
 
-  private def createPassword(passwordTokens: Seq[String], concatMode: String) = {
-    ConcatMode.toMode(concatMode) match {
-      case Flat => passwordTokens.mkString
-      case Snake => passwordTokens.mkString("_")
-      case Kebab => passwordTokens.mkString("-")
-      case Camel => (passwordTokens.head +: passwordTokens.tail.map(_.capitalize)).mkString
+  private def createPassword(passwordTokens: Seq[String], concatMode: String) = concatMode match {
+      case FlatConcatMode.code => passwordTokens.mkString
+      case SnakeConcatMode.code => passwordTokens.mkString("_")
+      case KebabConcatMode.code => passwordTokens.mkString("-")
+      case CamelConcatMode.code => (passwordTokens.head +: passwordTokens.tail.map(_.capitalize)).mkString
       case _ => throw new IllegalStateException()
     }
-  }
 
 }
