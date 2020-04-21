@@ -10,7 +10,7 @@ module.exports = {
         publicPath: ''
     },
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx', '.tsx', '.scss']
     },
     module: {
         rules: [
@@ -18,6 +18,15 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 loader: 'babel-loader',
                 exclude: /node_modules/
+            },
+            {
+                test: /\.ts(x?)$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: "ts-loader"
+                    }
+                ]
             },
             {
                 test: /\.(scss)$/,
@@ -44,8 +53,13 @@ module.exports = {
             }
         ]
     },
+    devtool: 'source-map',
     devServer: {
         contentBase: './dist'
+    },
+    externals: {
+        "react": "React",
+        "react-dom": "ReactDOM"
     },
     plugins: [
         new HtmlWebpackPlugin({

@@ -1,12 +1,20 @@
-import React from "react";
-import axios from "axios";
+import * as React from "react";
+import * as axios from "axios";
 
-export default class DicewareRequestForm extends React.Component {
+type DicewareRequestFormProps = {
+    numberOfWords?: number,
+    mode?: string,
+    password? : string
+}
 
-    constructor(props) {
+export default class DicewareRequestForm extends React.Component<DicewareRequestFormProps, DicewareRequestFormProps> {
+
+    #state: DicewareRequestFormProps;
+
+    constructor(props: DicewareRequestFormProps) {
         super(props);
-        this.state = {
-            numberOfWords: props.numberOfWords || "5",
+        this.#state = {
+            numberOfWords: props.numberOfWords || 5,
             mode: props.mode || "none"
         };
         this.handleChange = this.handleChange.bind(this);
@@ -14,18 +22,18 @@ export default class DicewareRequestForm extends React.Component {
         this.handleClear = this.handleClear.bind(this);
     }
 
-    handleChange(event) {
-        const name = event.target.name;
-        const value = event.target.value;
+    handleChange(event: React.ChangeEvent<HTMLSelectElement|HTMLInputElement>) {
+        const name = event.currentTarget.name;
+        const value = event.currentTarget.value;
         console.log("Updating state...", name + ":", value);
         this.setState({
             [name]: value
         });
     }
 
-    handleSubmit(event) {
+    handleSubmit(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         console.log("Submitting...");
-        axios.get("http://localhost:8888/generate", {
+        axios.default.get("http://localhost:8888/generate", {
             params: {
                 words: this.state.numberOfWords,
                 mode: this.state.mode
@@ -33,7 +41,7 @@ export default class DicewareRequestForm extends React.Component {
         }).then(data => this.setState({password: data.data.password}))
     }
 
-    handleClear(event) {
+    handleClear(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         this.setState({password: ""})
     }
 
