@@ -1,5 +1,6 @@
 import React from "react";
-import axios from "axios";
+import DicewareResponse from "./DicewareResponse";
+import DicewareControls from "./DicewareControls";
 
 export default class DicewareRequestForm extends React.Component {
 
@@ -10,8 +11,14 @@ export default class DicewareRequestForm extends React.Component {
             mode: props.mode || "none"
         };
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleClear = this.handleClear.bind(this);
+        this.handlePasswordUpdate = this.handlePasswordUpdate.bind(this);
+    }
+
+    handlePasswordUpdate(password) {
+        console.log("updating password into state...")
+        this.setState({
+            "password": password
+        })
     }
 
     handleChange(event) {
@@ -21,20 +28,6 @@ export default class DicewareRequestForm extends React.Component {
         this.setState({
             [name]: value
         });
-    }
-
-    handleSubmit(event) {
-        console.log("Submitting...");
-        axios.get("http://localhost:8888/generate", {
-            params: {
-                words: this.state.numberOfWords,
-                mode: this.state.mode
-            }
-        }).then(data => this.setState({password: data.data.password}))
-    }
-
-    handleClear(event) {
-        this.setState({password: ""})
     }
 
     render() {
@@ -65,28 +58,15 @@ export default class DicewareRequestForm extends React.Component {
                         </select>
                     </div>
 
-                    <button type="button"
-                            className="btn btn-primary mr-1"
-                            onClick={this.handleSubmit}>
-                        Generate
-                    </button>
-
-                    <button type="button"
-                            className="btn btn-secondary"
-                            onClick={this.handleClear} disabled={!this.state.password}>
-                        Clear
-                    </button>
+                    <DicewareControls
+                        numberOfWords={this.state.numberOfWords}
+                        mode={this.state.mode}
+                        canClear={!!this.state.password}
+                        onPasswordUpdate={this.handlePasswordUpdate}/>
 
                 </form>
 
-                {this.state.password &&
-                <div className="card bg-light mb-3">
-                    <div className="card-header">The password is</div>
-                    <div className="card-body">
-                        <pre>{this.state.password}</pre>
-                    </div>
-                </div>
-                }
+                {this.state.password && <DicewareResponse password={this.state.password}/>}
             </div>
         );
     }
