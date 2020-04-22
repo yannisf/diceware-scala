@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --open --hot --mode development",
+    "start": "webpack-dev-server --open --hot --mode development --port 19320",
     "build": "webpack --mode production",
     "copy": "copyfiles -u 1 dist/* ../server/src/main/resources/site/"
   },
@@ -17,7 +17,8 @@
     "bootswatch": "^4.4.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-icons": "^3.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

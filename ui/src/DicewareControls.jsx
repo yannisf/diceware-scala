@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import {FaBroom, FaBolt} from "react-icons/fa"
 
 export default class DicewareControls extends React.Component {
 
@@ -27,11 +28,11 @@ export default class DicewareControls extends React.Component {
             <div>
                 <button type="button" className="btn btn-primary mr-1"
                         onClick={this.handleSubmit}>
-                    Generate
+                    <FaBolt/> Generate
                 </button>
                 <button type="button" className="btn btn-secondary"
                         onClick={this.handleClear} disabled={!this.props.canClear}>
-                    Clear
+                    <FaBroom/> Clear
                 </button>
             </div>
         );

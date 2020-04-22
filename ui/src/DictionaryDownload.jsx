@@ -1,5 +1,6 @@
 import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
+import { FaBook } from 'react-icons/fa';
 
 export default class DictionaryDownload extends React.Component {
   constructor(props) {
@@ -9,7 +10,7 @@ export default class DictionaryDownload extends React.Component {
   render() {
     return (
       <Dropdown>
-        <Dropdown.Toggle variant="primary" id="dropdown-basic">Dictionary</Dropdown.Toggle>
+        <Dropdown.Toggle variant="primary" id="dropdown-basic"><FaBook/> Dictionary</Dropdown.Toggle>
         <Dropdown.Menu>
           <Dropdown.Item href="/wordlist?download">Download</Dropdown.Item>
           <Dropdown.Item href="wordlist">View</Dropdown.Item>
