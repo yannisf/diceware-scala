@@ -2,6 +2,7 @@ import React from "react";
 import DicewareResponse from "./DicewareResponse";
 import DicewareControls from "./DicewareControls";
 import ModeSelector from "./ModeSelector";
+import ProgressBar from 'react-bootstrap/ProgressBar';
 
 export default class DicewareRequestForm extends React.Component {
 
@@ -14,6 +15,14 @@ export default class DicewareRequestForm extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleModeUpdate = this.handleModeUpdate.bind(this);
         this.handlePasswordUpdate = this.handlePasswordUpdate.bind(this);
+        this._getStrength = this._getStrength.bind(this);
+    }
+
+    _getStrength() {
+        const pc = (this.state.numberOfWords - 2) * 10
+        if (this.state.numberOfWords < 5) return { looks: "danger", label: "Weak", pc: pc }
+        else if (this.state.numberOfWords > 7) return { looks: "success", label: "Strong", pc: pc}
+        else return {looks: "info", label: "Sufficient", pc: pc}
     }
 
     handleModeUpdate(event) {
@@ -37,6 +46,7 @@ export default class DicewareRequestForm extends React.Component {
     }
 
     render() {
+        const strength = this._getStrength()
         return (
             <div>
                 <form className="mb-3">
@@ -48,7 +58,8 @@ export default class DicewareRequestForm extends React.Component {
                                name="numberOfWords"
                                value={this.state.numberOfWords}
                                onChange={this.handleChange}/>
-                    </div>
+                        <ProgressBar variant={strength.looks} now={strength.pc} label={strength.label}/>
+                      </div>
 
                     <ModeSelector mode={this.state.mode} onModeUpdate={this.handleModeUpdate}/>
 
