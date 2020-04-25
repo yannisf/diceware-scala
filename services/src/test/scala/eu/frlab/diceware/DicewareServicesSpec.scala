@@ -1,9 +1,10 @@
 package eu.frlab.diceware
 
 import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
-class DicewareServicesSpec extends FlatSpec with Matchers {
+class DicewareServicesSpec extends AnyFlatSpec with Matchers {
 
   val dicewareService = new DicewareService()
 
