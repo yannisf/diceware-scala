@@ -12,7 +12,7 @@ export default class ModeSelector extends React.Component {
     }
 
     _loadModes() {
-        axios.get("http://localhost:8888/modes")
+        axios.get("modes")
             .then(data => this.setState({modes: data.data}))
     }
 
@@ -23,13 +23,13 @@ export default class ModeSelector extends React.Component {
             </option>);
 
         return (
-            <div className="form-group">
+            <div className="form-group col-md-4">
                 <label htmlFor="concatMode">Concatenation mode</label>
                 <select id="concatMode"
                         className="form-control"
                         name="mode"
                         value={this.props.mode}
-                        onChange={this.props.onModeUpdate}>
+                        onChange={this.props.onChange}>
                     {options}
                 </select>
             </div>

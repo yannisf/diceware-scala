@@ -16,6 +16,15 @@ ThisBuild / scmInfo := Some(
   )
 )
 
+ThisBuild / scalacOptions ++= Seq(
+  "-encoding", "utf8",
+  "-Xfatal-warnings",
+  "-deprecation",
+  "-unchecked",
+  "-language:implicitConversions",
+  "-language:postfixOps"
+)
+
 ThisBuild / developers := List(
   Developer(
     id = "yannisf",

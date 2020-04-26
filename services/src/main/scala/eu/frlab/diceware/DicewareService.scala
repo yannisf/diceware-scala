@@ -1,6 +1,5 @@
 package eu.frlab.diceware
 
-import eu.frlab.diceware.ConcatMode._
 import javax.inject.Inject
 import org.slf4j.LoggerFactory
 
@@ -11,19 +10,36 @@ case class DicewareRecord(key: String, word: String)
 
 case class PasswordResponse(password: String, numberOfTokens: Int, concatMode: String, rolls: Seq[DicewareRecord])
 
-class DicewareService @Inject() () {
+class DicewareService @Inject()() {
 
   private val RandomGen = Random
   private val WordMap = WordListMapMaker()
 
   private val log = LoggerFactory.getLogger("eu.frlab")
 
-  def generate(numberOfWords: Int, concatMode: String): PasswordResponse = {
-    val records = (1 to numberOfWords).map(_ => rollForWord())
-    val words = records.map(_.word)
-    val password = createPassword(words, concatMode)
+  def generate(numberOfWords: Int,
+               concatMode: String,
+               requireDigit: Boolean = false,
+               requireSpecialChar: Boolean = false,
+               numberOfPasswords: Int = 1): Set[PasswordResponse] = {
 
-    PasswordResponse(password, numberOfWords, concatMode, records)
+    @tailrec
+    def generatePassword(passwordResponses: Set[PasswordResponse]): Set[PasswordResponse] = {
+      val records = (1 to numberOfWords).map(_ => rollForWord())
+      val words = records.map(_.word)
+      val password = createPassword(words, concatMode)
+      val requirementsSatisfied = (!requireDigit || "[0-9]".r.findFirstMatchIn(password).isDefined) &&
+        (!requireSpecialChar || """[~!@#$%^&*()_]""".r.findFirstMatchIn(password).isDefined)
+
+      if (requirementsSatisfied) {
+        val nextPasswordResponses = passwordResponses + PasswordResponse(password, numberOfWords, concatMode, records)
+        if (passwordResponses.size + 1 == numberOfPasswords) nextPasswordResponses
+        else generatePassword(nextPasswordResponses)
+      } else generatePassword(passwordResponses)
+    }
+
+    generatePassword(Set.empty[PasswordResponse])
+
   }
 
   def wordList(): Seq[DicewareRecord] = {
@@ -46,16 +62,16 @@ class DicewareService @Inject() () {
 
     val key = rollCollect()
     val word = WordMap.getOrElse(key, "No such key")
-    log.info("Looked up word")
+    log.debug("Looked up word")
     DicewareRecord(key, word)
   }
 
   private def createPassword(passwordTokens: Seq[String], concatMode: String) = concatMode match {
-      case FlatConcatMode.code => passwordTokens.mkString
-      case SnakeConcatMode.code => passwordTokens.mkString("_")
-      case KebabConcatMode.code => passwordTokens.mkString("-")
-      case CamelConcatMode.code => (passwordTokens.head +: passwordTokens.tail.map(_.capitalize)).mkString
-      case _ => throw new IllegalStateException()
-    }
+    case FlatConcatMode.code => passwordTokens.mkString
+    case SnakeConcatMode.code => passwordTokens.mkString("_")
+    case KebabConcatMode.code => passwordTokens.mkString("-")
+    case CamelConcatMode.code => (passwordTokens.head +: passwordTokens.tail.map(_.capitalize)).mkString
+    case _ => throw new IllegalStateException()
+  }
 
 }

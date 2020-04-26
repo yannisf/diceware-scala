@@ -23,8 +23,11 @@ class DicewareRestController @Inject() (dicewareService: DicewareService) extend
   get("/generate") { request: PasswordParams =>
     val numberOfWords = request.words.getOrElse(DefaultNumberOfWords)
     val concatMode = request.mode.getOrElse(DefaultConcatMode)
-    logger.info("Received request to generate password")
-    dicewareService.generate(numberOfWords, concatMode)
+    val requireDigit = request.digit.getOrElse(false)
+    val requireSpecialChar = request.special.getOrElse(false)
+    val numberOfPasswords = request.number.getOrElse(1)
+    logger.info("Requested password generation")
+    dicewareService.generate(numberOfWords, concatMode, requireDigit, requireSpecialChar, numberOfPasswords)
   }
 
   get("/wordlist") { request: Request =>
@@ -49,4 +52,7 @@ class DicewareRestController @Inject() (dicewareService: DicewareService) extend
 }
 
 private case class PasswordParams(@QueryParam words: Option[Int],
-                                  @QueryParam mode: Option[String])
+                                  @QueryParam mode: Option[String],
+                                  @QueryParam digit: Option[Boolean],
+                                  @QueryParam special: Option[Boolean],
+                                  @QueryParam number: Option[Int])

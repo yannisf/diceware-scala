@@ -18,13 +18,20 @@ export default class DicewareResponse extends React.Component {
     }
 
     render() {
+        const passwords = this.props.passwords.map(password =>
+            <h4 className="mt-3" key={password}>
+                {!this.state.hidden && <pre>{password}</pre>}
+                {this.state.hidden && <pre>{password.replace(/./gi, "\u2022")}</pre>}
+            </h4>);
+
         return (
             <div className="alert alert-dark" role="alert">
-                <h6>Password</h6>
-                <h4 className="mt-3">
-                    {!this.state.hidden && <pre>{this.props.password} <BsEyeSlash title="hide" style={{cursor: 'pointer'}} onClick={this.handleClick}/></pre>}
-                    {this.state.hidden && <pre>{this.props.password.replace(/./gi, "\u2022")} <BsEye title="show" style={{cursor: 'pointer'}} onClick={this.handleClick}/></pre>}
-                </h4>
+                <h5>
+                    Password &nbsp;
+                    {this.state.hidden &&<BsEyeSlash title="show" style={{cursor: 'pointer'}} onClick={this.handleClick}/>}
+                    {!this.state.hidden &&<BsEye title="hide" style={{cursor: 'pointer'}} onClick={this.handleClick}/>}
+                </h5>
+                {passwords}
             </div>
         );
     }

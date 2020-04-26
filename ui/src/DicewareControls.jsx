@@ -11,16 +11,13 @@ export default class DicewareControls extends React.Component {
     }
 
     handleSubmit() {
-        axios.get("http://localhost:8888/generate", {
-            params: {
-                words: this.props.numberOfWords,
-                mode: this.props.mode
-            }
-        }).then(data => this.props.onPasswordUpdate(data.data.password))
+        axios.get("generate", {
+            params: this.props.params
+        }).then(response => this.props.onPasswordUpdate(response.data.map(p => p.password)))
     }
 
     handleClear() {
-        this.props.onPasswordUpdate("")
+        this.props.onPasswordUpdate([])
     }
 
     render() {

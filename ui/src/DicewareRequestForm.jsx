@@ -1,8 +1,10 @@
 import React from "react";
 import DicewareResponse from "./DicewareResponse";
 import DicewareControls from "./DicewareControls";
+import StrengthSelector from "./StrengthSelector";
 import ModeSelector from "./ModeSelector";
-import ProgressBar from 'react-bootstrap/ProgressBar';
+import NumberOfPasswordsSelector from "./NumberOfPasswordsSelector";
+import SpecialSwitches from "./SpecialSwitches";
 
 export default class DicewareRequestForm extends React.Component {
 
@@ -10,68 +12,61 @@ export default class DicewareRequestForm extends React.Component {
         super(props);
         this.state = {
             numberOfWords: props.numberOfWords || "5",
-            mode: props.mode || "none"
+            mode: props.mode || "none",
+            numberOfPasswords: 1,
+            requireDigit: false,
+            requireSpecial: false
         };
         this.handleChange = this.handleChange.bind(this);
-        this.handleModeUpdate = this.handleModeUpdate.bind(this);
         this.handlePasswordUpdate = this.handlePasswordUpdate.bind(this);
-        this._getStrength = this._getStrength.bind(this);
-    }
-
-    _getStrength() {
-        const pc = (this.state.numberOfWords - 2) * 10
-        if (this.state.numberOfWords < 5) return { looks: "danger", label: "Weak", pc: pc }
-        else if (this.state.numberOfWords > 7) return { looks: "success", label: "Strong", pc: pc}
-        else return {looks: "info", label: "Sufficient", pc: pc}
-    }
-
-    handleModeUpdate(event) {
-        this.setState({
-            "mode": event.target.value
-        })
-    }
-
-    handlePasswordUpdate(password) {
-        this.setState({
-            "password": password
-        })
+        this.marshalParams = this.marshalParams.bind(this);
     }
 
     handleChange(event) {
-        const name = event.target.name;
-        const value = event.target.value;
         this.setState({
-            [name]: value
+            [event.target.name]: event.target.value || event.target.checked
+        })
+    }
+
+    handlePasswordUpdate(passwords) {
+        this.setState({
+            "passwords": passwords
         });
     }
 
+    marshalParams() {
+        return {
+            words: this.state.numberOfWords,
+            mode: this.state.mode,
+            number: this.state.numberOfPasswords,
+            digit: this.state.requireDigit,
+            special: this.state.requireSpecial
+        }
+    }
+
     render() {
-        const strength = this._getStrength()
         return (
             <div>
+
                 <form className="mb-3">
-                    <div className="form-group">
-                        <label htmlFor="numberOfWords">Number of words</label>
-                        <input id="numberOfWords"
-                               type="number" min="3" max="12"
-                               className="form-control"
-                               name="numberOfWords"
-                               value={this.state.numberOfWords}
-                               onChange={this.handleChange}/>
-                        <ProgressBar variant={strength.looks} now={strength.pc} label={strength.label}/>
-                      </div>
 
-                    <ModeSelector mode={this.state.mode} onModeUpdate={this.handleModeUpdate}/>
+                    <div className="form-row">
+                        <StrengthSelector numberOfWords={this.state.numberOfWords} onChange={this.handleChange}/>
+                        <ModeSelector mode={this.state.mode} onChange={this.handleChange}/>
+                        <NumberOfPasswordsSelector numberOPasswords={this.state.numberOfPasswords}
+                                                   onChange={this.handleChange}/>
+                    </div>
 
-                    <DicewareControls
-                        numberOfWords={this.state.numberOfWords}
-                        mode={this.state.mode}
-                        canClear={!!this.state.password}
-                        onPasswordUpdate={this.handlePasswordUpdate}/>
+                    <div className="form-row">
+                        <SpecialSwitches requireDigit={this.state.requireDigit}
+                                         requireSpecial={this.state.requireSpecial} onChange={this.handleChange}/>
+                    </div>
 
+                    <DicewareControls params={this.marshalParams()}
+                                      canClear={this.state.passwords && this.state.passwords.length > 0} onPasswordUpdate={this.handlePasswordUpdate}/>
                 </form>
 
-                {this.state.password && <DicewareResponse password={this.state.password}/>}
+                {this.state.passwords && this.state.passwords.length > 0 && <DicewareResponse passwords={this.state.passwords}/>}
             </div>
         );
     }
