@@ -70,7 +70,7 @@ class DicewareService @Inject()() {
     case FlatConcatMode.code => passwordTokens.mkString
     case SnakeConcatMode.code => passwordTokens.mkString("_")
     case KebabConcatMode.code => passwordTokens.mkString("-")
-    case CamelConcatMode.code => (passwordTokens.head +: passwordTokens.tail.map(_.capitalize)).mkString
+    case CamelConcatMode.code => passwordTokens.reduceLeft(_ + _.capitalize)
     case _ => throw new IllegalStateException()
   }
 
